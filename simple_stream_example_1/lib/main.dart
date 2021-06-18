@@ -11,7 +11,8 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Stream sample 1',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
@@ -20,6 +21,7 @@ class MyApp extends StatelessWidget {
   }
 }
 
+// We use a StatefulWidget to have the dispose method
 class MyHomePage extends StatefulWidget {
   const MyHomePage({Key? key}) : super(key: key);
 
@@ -29,11 +31,6 @@ class MyHomePage extends StatefulWidget {
 
 class _MyHomePageState extends State<MyHomePage> {
   final NumberStream myStreamProvider = NumberStream();
-
-  @override
-  void initState() {
-    super.initState();
-  }
 
   void updateStream() {
     Random random = Random();
@@ -59,11 +56,12 @@ class _MyHomePageState extends State<MyHomePage> {
         children: [
           StreamBuilder<int>(
               stream: myStreamProvider.myModels,
+              initialData: -1, // initial value of the stream
               builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
+                // if we dont add the initialData the we show this message
                 if (!snapshot.hasData) {
                   return Text('no data');
                 }
-
                 return Center(child: Text('${snapshot.data}'));
               }),
           ElevatedButton(
