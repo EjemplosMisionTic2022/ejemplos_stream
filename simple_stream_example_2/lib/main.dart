@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'simple_model.dart';
 import 'stream_state_handler.dart';
+import 'theme/theme.dart';
 
 void main() {
   runApp(MyApp());
@@ -12,11 +13,9 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Simple Stream example 2',
+      title: 'Stream sample 2',
       showSemanticsDebugger: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: MyTheme.darkTheme,
       home: StreamStateHome(),
     );
   }
@@ -34,7 +33,7 @@ class _StreamStateHomeState extends State<StreamStateHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Simple Stream example 2"),
+        title: Text("Stream sample 2"),
       ),
       body: _getBuilder(),
     );

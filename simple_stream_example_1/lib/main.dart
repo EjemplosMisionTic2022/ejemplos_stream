@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:simple_stream_example_1/theme/theme.dart';
 import 'dart:math';
 import 'my_stream.dart';
 
@@ -13,9 +14,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       title: 'Stream sample 1',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: MyTheme.darkTheme,
       home: MyHomePage(),
     );
   }
