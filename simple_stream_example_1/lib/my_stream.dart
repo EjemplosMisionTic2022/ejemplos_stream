@@ -3,7 +3,7 @@ import 'dart:async';
 class NumberStream {
   final _myModelController = StreamController<int>.broadcast();
 
-  get myModels => _myModelController.stream;
+  get stream => _myModelController.stream;
 
   NumberStream() {}
 

@@ -1,11 +1,11 @@
 import 'dart:async';
-import 'simple_model.dart';
+import '../data/simple_model.dart';
 
 class StreamStateHandler {
   SingleModel data = new SingleModel(value: 0);
   final _myModelController = StreamController<SingleModel>.broadcast();
 
-  get myModels => _myModelController.stream;
+  get stream => _myModelController.stream;
 
   StreamStateHandler() {
     getMyModels();

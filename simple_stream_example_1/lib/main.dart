@@ -54,7 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           StreamBuilder<int>(
-              stream: myStreamProvider.myModels,
+              stream: myStreamProvider.stream,
               initialData: -1, // initial value of the stream
               builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
                 // if we dont add the initialData the we show this message
