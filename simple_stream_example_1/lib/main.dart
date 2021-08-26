@@ -31,6 +31,17 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
   final NumberStream myStreamProvider = NumberStream();
 
+  void setInitialvalue() async {
+    await Future<void>.delayed(const Duration(seconds: 3));
+    myStreamProvider.addNumberToSink(99);
+  }
+
+  @override
+  void initState() {
+    setInitialvalue();
+    super.initState();
+  }
+
   void updateStream() {
     Random random = Random();
     int myNum = random.nextInt(10);
@@ -57,14 +68,32 @@ class _MyHomePageState extends State<MyHomePage> {
               stream: myStreamProvider.stream,
               initialData: -1, // initial value of the stream
               builder: (BuildContext context, AsyncSnapshot<int> snapshot) {
-                // if we dont add the initialData the we show this message
-                if (!snapshot.hasData) {
-                  return Text('no data');
+                if (snapshot.hasError) {
+                  return Text('Error: ${snapshot.error}');
+                } else {
+                  switch (snapshot.connectionState) {
+                    case ConnectionState.none:
+                      return Center(child: Text('ConnectionState.none'));
+                    case ConnectionState.waiting:
+                      return Center(child: Text('ConnectionState.waiting'));
+                    case ConnectionState.active:
+                      return Center(child: Text('${snapshot.data}'));
+                    case ConnectionState.done:
+                      return Center(child: Text('${snapshot.data}'));
+                  }
                 }
-                return Center(child: Text('${snapshot.data}'));
               }),
-          ElevatedButton(
-              onPressed: () => updateStream(), child: Text("Update Stream")),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceAround,
+            children: [
+              ElevatedButton(
+                  onPressed: () => updateStream(),
+                  child: Text("Update Stream")),
+              ElevatedButton(
+                  onPressed: () => myStreamProvider.addError(),
+                  child: Text("Update with Error"))
+            ],
+          ),
         ],
       ),
     );

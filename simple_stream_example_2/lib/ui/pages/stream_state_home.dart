@@ -11,6 +11,17 @@ class StreamStateHome extends StatefulWidget {
 class _StreamStateHomeState extends State<StreamStateHome> {
   final StreamStateHandler myStreamProvider = StreamStateHandler();
 
+  void setInitialvalue() async {
+    await Future<void>.delayed(const Duration(seconds: 3));
+    myStreamProvider.changeValue(SingleModel(0));
+  }
+
+  @override
+  void initState() {
+    setInitialvalue();
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -24,13 +35,23 @@ class _StreamStateHomeState extends State<StreamStateHome> {
   Widget _getBuilder() {
     return StreamBuilder(
       stream: myStreamProvider.stream,
-      initialData: new SingleModel(value: 0),
       builder: (BuildContext context, AsyncSnapshot<SingleModel> snapshot) {
-        if (!snapshot.hasData) {
-          return Text('no data');
+        if (snapshot.hasError) {
+          return Text('Error: ${snapshot.error}');
+        } else {
+          switch (snapshot.connectionState) {
+            case ConnectionState.none:
+              return Center(child: Text('ConnectionState.none'));
+            case ConnectionState.waiting:
+              return Center(child: Text('ConnectionState.waiting'));
+            case ConnectionState.active:
+              SingleModel? currentValue = snapshot.data;
+              return _buildUi(currentValue!);
+            case ConnectionState.done:
+              SingleModel? currentValue = snapshot.data;
+              return _buildUi(currentValue!);
+          }
         }
-        SingleModel? currentValue = snapshot.data;
-        return _buildUi(currentValue!);
       },
     );
   }
@@ -79,10 +100,10 @@ class _StreamStateHomeState extends State<StreamStateHome> {
   }
 
   void changeData(SingleModel currentValue) {
-    int newValue = currentValue.value + 1;
-    if (newValue == 3) {
-      newValue = 0;
-    }
+    int newValue = (currentValue.value + 1) % 3;
+    //if (newValue == 3) {
+    //  newValue = 0;
+    //}
     currentValue.value = newValue;
     myStreamProvider.changeValue(currentValue);
   }

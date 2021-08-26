@@ -7,12 +7,12 @@ class NumberStream {
 
   NumberStream() {}
 
-  addNumberToSink(int newNumber) {
+  addNumberToSink(int newNumber) async {
     _myModelController.sink.add(newNumber);
   }
 
   addError() {
-    _myModelController.sink.addError('error');
+    _myModelController.sink.addError('some error');
   }
 
   close() {
