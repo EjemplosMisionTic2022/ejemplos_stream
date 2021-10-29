@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:simple_stream_example_1/theme/theme.dart';
+import 'package:simple_stream_example_1/ui/theme/theme.dart';
 import 'dart:math';
 import 'my_stream.dart';
 
